@@ -1,3 +1,4 @@
+import ThemeSwitcher from "@/components/theme-switcher";
 import { Sun } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -17,7 +18,7 @@ const Navbar = () => {
         </Link>
         <div className="flex items-center gap-2">
           {/* Theme button and signout button */}
-          <Sun />
+          <ThemeSwitcher />
           <FaSignOutAlt />
         </div>
       </div>
