@@ -1,4 +1,4 @@
-import { LavaLamp } from "@/components/fluid-blob";
+import { LavaLamp } from "@/components/lava-lamp";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
@@ -16,11 +16,8 @@ export default function Home() {
           Convex, and Vercel AI SDK.
         </p>
         {/* CTA button */}
-        <Button
-          className=" whitespace-nowrap text-lg px-8 py-4 text-white/80"
-          size="lg"
-        >
-          <Link href="/">Get Started</Link>
+        <Button className=" whitespace-nowrap text-lg px-8 py-4 text-white/80">
+          <Link href="/notes">Get Started</Link>
         </Button>
         {/* Footer */}
         <footer className="mt-auto pt-16 flex flex-row items-center justify-center gap-2 px-4 text-center ">
