@@ -1,9 +1,8 @@
 import ThemeSwitcher from "@/components/theme-switcher";
-import { Sun } from "lucide-react";
+import { LogIn, Sun } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { BiNotepad } from "react-icons/bi";
-import { FaSignOutAlt } from "react-icons/fa";
 
 const Navbar = () => {
   return (
@@ -19,7 +18,9 @@ const Navbar = () => {
         <div className="flex items-center gap-2">
           {/* Theme button and signout button */}
           <ThemeSwitcher />
-          <FaSignOutAlt />
+          <Link href="/sign-in">
+            <LogIn />
+          </Link>
         </div>
       </div>
     </nav>

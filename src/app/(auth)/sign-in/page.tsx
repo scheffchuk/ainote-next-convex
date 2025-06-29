@@ -1,13 +1,35 @@
 "use client";
 
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { AuthFormValues, signInSchema } from "../schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function SignInPage() {
   const [step, setStep] = useState<"signIn" | "signUp">("signIn");
 
+  const form = useForm<AuthFormValues>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  async function onSubmit(values: AuthFormValues) {}
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-muted/50">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-muted/50 p-4">
       {/* Sign In form */}
       <div className="w-full max-w-md p-6 space-y-8 bg-card rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-card-foreground">
@@ -18,6 +40,61 @@ export default function SignInPage() {
             ? "Enter your credentials to access your account."
             : "Create a new account to get started."}
         </p>
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="cat@example.com"
+                      {...field}
+                      type="email"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {form.formState.errors.root && (
+              <div className="text-sm text-destructive">
+                {form.formState.errors.root.message}
+              </div>
+            )}
+            <Button type="submit" className="w-full cursor-pointer">
+              {step === "signIn" ? "Sign In" : "Sign Up"}
+            </Button>
+          </form>
+        </Form>
+        <Button
+          variant="link"
+          type="button"
+          className="w-full text-sm text-muted-foreground cursor-pointer"
+          onClick={() => {
+            setStep(step === "signIn" ? "signUp" : "signIn");
+            form.reset;
+          }}
+        >
+          {step === "signIn"
+            ? "Don't have an account? Sign Up"
+            : "Already have an account? Sign In"}
+        </Button>
       </div>
     </div>
   );
