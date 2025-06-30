@@ -17,7 +17,7 @@ export default function Home() {
         </p>
         {/* CTA button */}
         <Button className=" whitespace-nowrap text-lg px-8 py-4 text-white/80">
-          <Link href="/notes">Get Started</Link>
+          <Link href="/sign-in">Get Started</Link>
         </Button>
         {/* Footer */}
         <Footer />

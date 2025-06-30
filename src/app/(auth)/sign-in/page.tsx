@@ -15,9 +15,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PasswordInput } from "@/components/password-input";
+import { useAuthActions } from "@convex-dev/auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function SignInPage() {
   const [step, setStep] = useState<"signIn" | "signUp">("signIn");
+
+  const { signIn } = useAuthActions();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const form = useForm<AuthFormValues>({
     resolver: zodResolver(signInSchema),
@@ -27,7 +35,38 @@ export default function SignInPage() {
     },
   });
 
-  async function onSubmit(values: AuthFormValues) {}
+  async function onSubmit(values: AuthFormValues) {
+    setIsLoading(true);
+    try {
+      await signIn("password", {
+        ...values,
+        flow: step,
+      });
+      toast.success(
+        step === "signIn"
+          ? "Signed in successfully"
+          : "Account created successfully"
+      );
+      router.push("/notes");
+    } catch (error) {
+      console.error(error);
+      // Might have better solution later.
+      if (
+        error instanceof Error &&
+        (error.message.includes("InvalidAccountId") ||
+          error.message.includes("InvalidSecret"))
+      ) {
+        form.setError("root", {
+          type: "manual",
+          message: "Invalid credentials.",
+        });
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-muted/50 p-4">
@@ -81,7 +120,11 @@ export default function SignInPage() {
                 {form.formState.errors.root.message}
               </div>
             )}
-            <Button type="submit" className="w-full cursor-pointer">
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={isLoading}
+            >
               {step === "signIn" ? "Sign In" : "Sign Up"}
             </Button>
           </form>
