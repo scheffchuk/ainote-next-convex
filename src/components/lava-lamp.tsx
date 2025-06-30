@@ -117,7 +117,7 @@ function LavaLampShader() {
       time: { value: 0 },
       resolution: { value: new THREE.Vector4() },
     }),
-    []
+    [],
   );
 
   // Update resolution when size changes

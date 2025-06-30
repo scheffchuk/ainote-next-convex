@@ -22,14 +22,14 @@ function PasswordInput({ className, ...props }: PasswordInputProps) {
       />
       <button
         type="button"
-        className="absolute right-0 top-0 h-full px-3 py-2 cursor-pointer"
+        className="absolute top-0 right-0 h-full cursor-pointer px-3 py-2"
         onClick={() => setShowPassword((prev) => !prev)}
         disabled={props.disabled}
       >
         {showPassword ? (
-          <EyeOff className="h-4 w-4 text-muted-foreground" />
+          <EyeOff className="text-muted-foreground h-4 w-4" />
         ) : (
-          <Eye className="h-4 w-4 text-muted-foreground" />
+          <Eye className="text-muted-foreground h-4 w-4" />
         )}
         <span className="sr-only">
           {showPassword ? "Hide password" : "Show password"}

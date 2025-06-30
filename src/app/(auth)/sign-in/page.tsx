@@ -45,7 +45,7 @@ export default function SignInPage() {
       toast.success(
         step === "signIn"
           ? "Signed in successfully"
-          : "Account created successfully"
+          : "Account created successfully",
       );
       router.push("/notes");
     } catch (error) {
@@ -69,10 +69,10 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-muted/50 p-4">
+    <div className="bg-muted/50 flex min-h-screen flex-col items-center justify-center p-4">
       {/* Sign In form */}
-      <div className="w-full max-w-md p-6 space-y-8 bg-card rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-card-foreground">
+      <div className="bg-card w-full max-w-md space-y-8 rounded-lg p-6 shadow-lg">
+        <h1 className="text-card-foreground text-3xl font-bold">
           {step === "signIn" ? "Login" : "Create Account"}
         </h1>
         <p className="text-muted-foreground">
@@ -94,6 +94,7 @@ export default function SignInPage() {
                       placeholder="cat@example.com"
                       {...field}
                       type="email"
+                      autoComplete="username"
                     />
                   </FormControl>
                 </FormItem>
@@ -109,6 +110,9 @@ export default function SignInPage() {
                     <PasswordInput
                       placeholder="O Captain My Captain..."
                       {...field}
+                      autoComplete={
+                        step === "signIn" ? "current-password" : "new-password"
+                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -116,7 +120,7 @@ export default function SignInPage() {
               )}
             />
             {form.formState.errors.root && (
-              <div className="text-sm text-destructive">
+              <div className="text-destructive text-sm">
                 {form.formState.errors.root.message}
               </div>
             )}
@@ -132,7 +136,7 @@ export default function SignInPage() {
         <Button
           variant="link"
           type="button"
-          className="w-full text-sm text-muted-foreground cursor-pointer"
+          className="text-muted-foreground w-full cursor-pointer text-sm"
           onClick={() => {
             setStep(step === "signIn" ? "signUp" : "signIn");
             form.reset;

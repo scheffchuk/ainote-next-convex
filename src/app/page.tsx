@@ -5,18 +5,18 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-16">
+    <div className="relative flex min-h-screen flex-col items-center justify-center px-4 py-16">
       <LavaLamp />
-      <main className="text-center space-y-6 text-white/80 tracking-tight mix-blend-exclusion">
+      <main className="space-y-6 text-center tracking-tight text-white/80 mix-blend-exclusion">
         {/* Header */}
-        <h1 className="text-6xl md:text-8xl font-bold ">Amnesiac Memos</h1>
+        <h1 className="text-6xl font-bold md:text-8xl">Amnesiac Memos</h1>
         {/* Description */}
-        <p className="text-lg/relaxed text-start md:text-center">
+        <p className="text-start text-lg/relaxed md:text-center">
           Learning how to build an AI-powered note-taking app using Next.js,
           Convex, and Vercel AI SDK.
         </p>
         {/* CTA button */}
-        <Button className=" whitespace-nowrap text-lg px-8 py-4 text-white/80">
+        <Button className="px-8 py-4 text-lg whitespace-nowrap text-white/80">
           <Link href="/sign-in">Get Started</Link>
         </Button>
         {/* Footer */}

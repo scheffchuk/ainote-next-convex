@@ -6,11 +6,11 @@ import SignOutButton from "../(auth)/sign-out-button";
 
 const Navbar = () => {
   return (
-    <nav className="flex justify-center p-4 bg-card border-b">
-      <div className="container xl:max-w-6xl flex items-center mx-auto justify-between">
+    <nav className="bg-card flex justify-center border-b p-4">
+      <div className="container mx-auto flex items-center justify-between xl:max-w-6xl">
         <Link
           href="/"
-          className="flex items-center gap-3 text-xl font-semibold text-card-foreground hover:opacity-80 transition-opacity"
+          className="text-card-foreground flex items-center gap-3 text-xl font-semibold transition-opacity hover:opacity-80"
         >
           <BiNotepad size={24} />
           Amnesiac Memos
