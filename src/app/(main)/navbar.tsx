@@ -1,4 +1,5 @@
 import ThemeSwitcher from "@/components/theme-switcher";
+import { Button } from "@/components/ui/button";
 import { LogIn, Sun } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -19,7 +20,9 @@ const Navbar = () => {
           {/* Theme button and signout button */}
           <ThemeSwitcher />
           <Link href="/sign-in">
-            <LogIn />
+            <Button variant="outline" size="icon">
+              <LogIn />
+            </Button>
           </Link>
         </div>
       </div>

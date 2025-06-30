@@ -14,6 +14,7 @@ import { AuthFormValues, signInSchema } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { PasswordInput } from "@/components/password-input";
 
 export default function SignInPage() {
   const [step, setStep] = useState<"signIn" | "signUp">("signIn");
@@ -66,7 +67,10 @@ export default function SignInPage() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="Password" {...field} />
+                    <PasswordInput
+                      placeholder="O Captain My Captain..."
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

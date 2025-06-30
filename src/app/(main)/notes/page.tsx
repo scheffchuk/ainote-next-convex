@@ -7,9 +7,9 @@ export default function NotesPage() {
 
   return (
     <div className="container xl:max-w-6xl mx-auto">
-      <div className="flex justify-between items-center gap-8">
+      <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Memos</h1>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           {/* note */}
           <Bot />
           <Notebook />
