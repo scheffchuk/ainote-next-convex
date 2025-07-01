@@ -14,7 +14,7 @@ export default function NotesPage() {
   return (
     <div className="container mx-auto space-y-8 xl:max-w-6xl">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Memos</h1>
+        <h1 className="text-2xl font-bold">Your Notes</h1>
         <div className="flex items-center gap-3">
           {/* note */}
           <Bot />
@@ -42,7 +42,7 @@ function EmptyView() {
   return (
     <div className="py-10 text-center">
       <p className="text-muted-foreground">
-        No memos yet. Write down your first one
+        No notes yet. Write down your first one
       </p>
     </div>
   );

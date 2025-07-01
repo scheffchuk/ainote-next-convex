@@ -81,12 +81,12 @@ function CreateNoteDialog({
         title: values.title,
         body: values.body,
       });
-      toast.success("Memo created successfully");
+      toast.success("Note created successfully");
       form.reset();
       onDialogOpenChange(false);
     } catch (error) {
-      console.error("Error creating memo.", error);
-      toast.error("Failed to create memo. Please try again.");
+      console.error("Error creating note.", error);
+      toast.error("Failed to create note. Please try again.");
     }
   }
 
@@ -94,7 +94,7 @@ function CreateNoteDialog({
     <Dialog open={dialogOpen} onOpenChange={onDialogOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="mb-6">Create New Memo</DialogTitle>
+          <DialogTitle className="mb-6">Create New Note</DialogTitle>
           <DialogDescription>
             Write down what you want and then click save.
           </DialogDescription>
@@ -108,7 +108,7 @@ function CreateNoteDialog({
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Memo title" {...field} />
+                    <Input placeholder="Note title" {...field} />
                   </FormControl>
                 </FormItem>
               )}
@@ -120,7 +120,7 @@ function CreateNoteDialog({
                 <FormItem>
                   <FormLabel>Body</FormLabel>
                   <FormControl>
-                    <Input placeholder="Memo body" {...field} />
+                    <Input placeholder="Note body" {...field} />
                   </FormControl>
                 </FormItem>
               )}
