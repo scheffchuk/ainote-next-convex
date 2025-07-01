@@ -12,7 +12,7 @@ export default function NotesPage() {
   const notes = useQuery(api.notes.getUserNotes);
 
   return (
-    <div className="container mx-auto xl:max-w-6xl space-y-8">
+    <div className="container mx-auto space-y-8 xl:max-w-6xl">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Memos</h1>
         <div className="flex items-center gap-3">
