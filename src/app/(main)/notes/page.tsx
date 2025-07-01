@@ -1,6 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Bot, Notebook } from "lucide-react";
 import React from "react";
+import CreateNoteButton from "./create-note-button";
 
 export default function NotesPage() {
   const notes: [] | undefined = [];
@@ -9,10 +10,10 @@ export default function NotesPage() {
     <div className="container mx-auto xl:max-w-6xl">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Memos</h1>
-        <div className="flex gap-3">
+        <div className="flex gap-3 items-center">
           {/* note */}
           <Bot />
-          <Notebook />
+          <CreateNoteButton />
         </div>
       </div>
 

@@ -8,7 +8,7 @@ export default function Home() {
     <div className="relative flex min-h-screen flex-col items-center justify-center px-4 py-16">
       <LavaLamp />
       <main className="space-y-6 text-center tracking-tight text-white/80 mix-blend-exclusion">
-        {/* Header */}
+        {/* Title */}
         <h1 className="text-6xl font-bold md:text-8xl">Amnesiac Memos</h1>
         {/* Description */}
         <p className="text-start text-lg/relaxed md:text-center">
