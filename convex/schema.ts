@@ -8,9 +8,8 @@ const schema = defineSchema({
   notes: defineTable({
     title: v.string(),
     body: v.string(),
-    userId: v.id("users")
-  }).index("by_userId", ["userId"])
+    userId: v.id("users"),
+  }).index("by_userId", ["userId"]),
 });
 
 export default schema;
-

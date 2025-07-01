@@ -1,16 +1,21 @@
+"use client";
+
 import { Skeleton } from "@/components/ui/skeleton";
-import { Bot, Notebook } from "lucide-react";
+import { Bot } from "lucide-react";
 import React from "react";
 import CreateNoteButton from "./create-note-button";
+import { useQuery } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
+import NoteItem from "./note-item";
 
 export default function NotesPage() {
-  const notes: [] | undefined = [];
+  const notes = useQuery(api.notes.getUserNotes);
 
   return (
-    <div className="container mx-auto xl:max-w-6xl">
+    <div className="container mx-auto xl:max-w-6xl space-y-8">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Memos</h1>
-        <div className="flex gap-3 items-center">
+        <div className="flex items-center gap-3">
           {/* note */}
           <Bot />
           <CreateNoteButton />
@@ -24,6 +29,9 @@ export default function NotesPage() {
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           {/* Actual notes go here */}
+          {notes.map((note) => (
+            <NoteItem key={note._id} note={note} />
+          ))}
         </div>
       )}
     </div>
