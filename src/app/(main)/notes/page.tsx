@@ -1,12 +1,12 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { Bot } from "lucide-react";
 import React from "react";
 import CreateNoteButton from "./create-note-button";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import NoteItem from "./note-item";
+import { AIChatButton } from "./ask-ai-button";
 
 export default function NotesPage() {
   const notes = useQuery(api.notes.getUserNotes);
@@ -16,8 +16,7 @@ export default function NotesPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Your Notes</h1>
         <div className="flex items-center gap-3">
-          {/* note */}
-          <Bot />
+          <AIChatButton />
           <CreateNoteButton />
         </div>
       </div>

@@ -51,9 +51,9 @@ export const NotePreviewDialog = ({ note }: NotePreviewDialogProps) => {
     <Dialog open={isOpen} onOpenChange={handleCloseDialog}>
       <DialogContent className="sm:max-w-[625px]">
         <DialogHeader>
-          <DialogTitle>{note.title}</DialogTitle>
+          <DialogTitle className="mt-3">{note.title}</DialogTitle>
         </DialogHeader>
-        <div className="mt-4 whitespace-pre-wrap">{note.body}</div>
+        <div className="mt-3 whitespace-pre-wrap">{note.body}</div>
         <DialogFooter className="mt-6">
           <Button
             className="gap2 cursor-pointer hover:bg-red-700"

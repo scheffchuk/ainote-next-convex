@@ -45,7 +45,7 @@ export default function SignInPage() {
       toast.success(
         step === "signIn"
           ? "Signed in successfully"
-          : "Account created successfully",
+          : "Account created successfully"
       );
       router.push("/notes");
     } catch (error) {
@@ -139,7 +139,7 @@ export default function SignInPage() {
           className="text-muted-foreground w-full cursor-pointer text-sm"
           onClick={() => {
             setStep(step === "signIn" ? "signUp" : "signIn");
-            form.reset;
+            form.reset();
           }}
         >
           {step === "signIn"
