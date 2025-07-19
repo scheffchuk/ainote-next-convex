@@ -2,7 +2,7 @@ import { httpRouter } from "convex/server";
 import { auth } from "./auth";
 import { httpAction } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { streamText, UIMessage } from "ai";
+import { convertToModelMessages, streamText, UIMessage } from "ai";
 import { openai } from "@ai-sdk/openai";
 
 const http = httpRouter();
@@ -28,13 +28,18 @@ http.route({
     const result = streamText({
       model: openai("gpt-4o-mini"),
       system: "You are a helpful assistant that answer the user's questions.",
-      messages: lastMessages,
+      messages: convertToModelMessages(lastMessages),
       onError(error) {
         console.error("streamText error", error);
       },
     });
 
-    return result.toTextStreamResponse();
+    return result.toUIMessageStreamResponse({
+      headers: new Headers({
+        "Access-Control-Allow-Origin": "*",
+        Vary: "origin",
+      }),
+    });
   }),
 });
 
@@ -43,7 +48,6 @@ http.route({
   method: "OPTIONS",
   handler: httpAction(async (_, request) => {
     const headers = request.headers;
-
     if (
       headers.get("Origin") !== null &&
       headers.get("Access-Control-Request-Method") !== null &&

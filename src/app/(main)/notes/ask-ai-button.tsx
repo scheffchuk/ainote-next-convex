@@ -3,8 +3,17 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { useAuthToken } from "@convex-dev/auth/react";
 import { Bot, Expand, Minimize, Send, Trash, X } from "lucide-react";
 import React, { useRef, useState } from "react";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport, UIMessage } from "ai";
+import Markdown from "@/components/markdown";
+
+const convexSiteUrl = process.env.NEXT_PUBLIC_CONVEX_URL?.replace(
+  /.cloud$/,
+  ".site"
+);
 
 type AIChatBoxProps = {
   open: boolean;
@@ -30,7 +39,26 @@ export const AIChatButton = () => {
 };
 
 function AIChatBox({ open, onClose }: AIChatBoxProps) {
+  const token = useAuthToken();
+  const [input, setInput] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const { messages, sendMessage } = useChat({
+    transport: new DefaultChatTransport({
+      api: `${convexSiteUrl}/api/chat`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  });
+
+  function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (input.trim()) {
+      sendMessage({ text: input });
+      setInput("");
+    }
+  }
 
   const messageEndRef = useRef<HTMLDivElement>(null);
 
@@ -82,12 +110,16 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
       </div>
 
       <div className="flex-1 space-y-4 overflow-y-auto p-3">
-        {/* Messages go here */}
+        {messages.map((message) => (
+          <ChatMessage key={message.id} message={message} />
+        ))}
         <div ref={messageEndRef} />
       </div>
 
-      <form className="flex gap-2 border-t p-3">
+      <form className="flex gap-2 border-t p-3" onSubmit={onSubmit}>
         <Textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           placeholder="..."
           className="max-h-[120px] min-h-[40px] resize-none overflow-y-auto"
           maxLength={1000}
@@ -99,4 +131,50 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
       </form>
     </div>
   );
+}
+
+type ChatMessageProps = {
+  message: UIMessage;
+};
+
+function ChatMessage({ message }: ChatMessageProps) {
+  const currentStep = message.parts[message.parts.length - 1];
+
+  return (
+    <div
+      className={cn(
+        "mb-2 flex max-w-[80%] flex-col prose dark:prose-invert",
+        message.role === "user" ? "ml-auto items-end" : "mr-auto items-start"
+      )}
+    >
+      <div
+        className={cn(
+          "prose dark:prose-invert rounded-lg px-3 py-2 text-sm",
+          message.role === "user"
+            ? "bg-primary text-primary-foreground"
+            : "bg-muted first:prose-p:mt-0"
+        )}
+      >
+        {message.role === "assistant" && (
+          <div className="text-muted-foreground mb-1 flex items-center gap-1 text-xs font-medium">
+            <Bot className="text-primary size-3" />
+            AI Assistant
+          </div>
+        )}
+        {currentStep?.type === "text" && (
+          <Markdown>{currentStep.text}</Markdown>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Loader() {
+  return (
+    <div className="ml-2 items-center gap-1 py-2">
+      <div className="bg-primary size-1.5 animate-pulse rounded-full" />
+      <div className="bg-primary size-1.5 animate-pulse rounded-full delay-150" />
+      <div className="bg-primary size-1.5 animate-pulse rounded-full delay-300" />
+    </div>
+  )
 }
