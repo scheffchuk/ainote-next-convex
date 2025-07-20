@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -49,11 +50,14 @@ export const NotePreviewDialog = ({ note }: NotePreviewDialogProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleCloseDialog}>
-      <DialogContent className="sm:max-w-[625px]">
+      <DialogContent className="sm:max-w-[625px] max-h-[500px] flex flex-col">
+        <DialogDescription className="sr-only"></DialogDescription>
         <DialogHeader>
           <DialogTitle className="mt-3">{note.title}</DialogTitle>
         </DialogHeader>
-        <div className="mt-3 whitespace-pre-wrap">{note.body}</div>
+        <div className="mt-3 whitespace-pre-wrap overflow-y-auto">
+          {note.body}
+        </div>
         <DialogFooter className="mt-6">
           <Button
             className="gap2 cursor-pointer hover:bg-red-700"

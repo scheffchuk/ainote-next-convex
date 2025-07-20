@@ -18,13 +18,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "convex/react";
+import { useAction } from "convex/react";
 import { Plus } from "lucide-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { api } from "../../../../convex/_generated/api";
 import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
 
 const noteFormSchema = z.object({
   title: z.string().min(1, {
@@ -63,7 +64,7 @@ function CreateNoteDialog({
   dialogOpen,
   onDialogOpenChange,
 }: CreateNoteDialogProps) {
-  const createNote = useMutation(api.notes.createNote);
+  const createNote = useAction(api.notesActions.createNote);
 
   const form = useForm<z.infer<typeof noteFormSchema>>({
     resolver: zodResolver(noteFormSchema),
@@ -92,7 +93,7 @@ function CreateNoteDialog({
 
   return (
     <Dialog open={dialogOpen} onOpenChange={onDialogOpenChange}>
-      <DialogContent>
+      <DialogContent className="flex flex-col">
         <DialogHeader>
           <DialogTitle className="mb-6">Create New Note</DialogTitle>
           <DialogDescription>
@@ -120,7 +121,7 @@ function CreateNoteDialog({
                 <FormItem>
                   <FormLabel>Body</FormLabel>
                   <FormControl>
-                    <Input placeholder="Note body" {...field} />
+                    <Textarea className="max-h-[250px]" placeholder="Note body" {...field} />
                   </FormControl>
                 </FormItem>
               )}

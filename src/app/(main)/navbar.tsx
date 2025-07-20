@@ -1,7 +1,6 @@
 import ThemeSwitcher from "@/components/theme-switcher";
 import Link from "next/link";
 import React from "react";
-import { BiNotepad } from "react-icons/bi";
 import SignOutButton from "../(auth)/sign-out-button";
 
 const Navbar = () => {
@@ -12,7 +11,6 @@ const Navbar = () => {
           href="/"
           className="text-card-foreground flex items-center gap-3 text-xl font-semibold transition-opacity hover:opacity-80"
         >
-          <BiNotepad size={24} />
           Amnesiac Memos
         </Link>
         <div className="flex items-center gap-2">

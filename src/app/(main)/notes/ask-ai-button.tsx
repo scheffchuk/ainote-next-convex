@@ -64,6 +64,7 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
       },
     }),
     messages: initialMessages,
+    maxSteps: 3,
   });
 
   const messageEndRef = useRef<HTMLDivElement>(null);
@@ -201,6 +202,9 @@ function ChatMessage({ message }: ChatMessageProps) {
         )}
         {currentStep?.type === "text" && (
           <Markdown>{currentStep.text}</Markdown>
+        )}
+        {currentStep.type === `tool-${"findRelevantNotes"}` && (
+          <div className="italic animate-pulse">Searching notes...</div>
         )}
       </div>
     </div>

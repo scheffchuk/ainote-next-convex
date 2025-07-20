@@ -16,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Note Taking App",
+  title: "Amnesiac",
   description:
-    "Learning to build an AI-powered note-taking app with Next.js, Convex, and Vercel AI SDK",
+    "An AI-powered note-taking app with Next.js, Convex, and Vercel AI SDK",
 };
 
 export default function RootLayout({
