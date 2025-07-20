@@ -22,7 +22,7 @@ http.route({
 
     const { messages }: { messages: UIMessage[] } = await req.json();
 
-    // It makes the request cheaper and avoid exceeding the context window.
+    // Only the last 10 messages would be sent to the OPENAI API. It makes the request cheaper and avoid exceeding the context window.
     const lastMessages = messages.slice(-10);
 
     const result = streamText({

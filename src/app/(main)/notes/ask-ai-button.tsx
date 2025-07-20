@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useAuthToken } from "@convex-dev/auth/react";
 import { Bot, Expand, Minimize, Send, Trash, X } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, UIMessage } from "ai";
 import Markdown from "@/components/markdown";
@@ -38,32 +38,62 @@ export const AIChatButton = () => {
   );
 };
 
+const initialMessages: UIMessage[] = [
+  {
+    id: "welcome-message",
+    role: "assistant",
+    parts: [
+      {
+        type: "text",
+        text: "Hi there! I'm your assistant. I can find and summarize your notes. Feel free to ask me anything about your notes!",
+      },
+    ],
+  },
+];
+
 function AIChatBox({ open, onClose }: AIChatBoxProps) {
   const token = useAuthToken();
   const [input, setInput] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { messages, sendMessage } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat({
     transport: new DefaultChatTransport({
       api: `${convexSiteUrl}/api/chat`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }),
+    messages: initialMessages,
   });
+
+  const messageEndRef = useRef<HTMLDivElement>(null);
+
+  const isProcessing = status === "submitted" || status === "streaming";
+
+  useEffect(() => {
+    if (open) {
+      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [open, messages]);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (input.trim()) {
+    if (input.trim() && !isProcessing) {
       sendMessage({ text: input });
       setInput("");
     }
   }
 
-  const messageEndRef = useRef<HTMLDivElement>(null);
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      onSubmit(e);
+    }
+  };
 
   // Kind of skeptical of this
   if (!open) return null;
+
+  const lastMessageIsUser = messages[messages.length - 1]?.role === "user";
 
   return (
     <div
@@ -92,7 +122,7 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => { }}
+            onClick={() => setMessages(initialMessages)}
             className="text-primary-foreground h-8 w-8 cursor-pointer"
             title="Clear chat"
           >
@@ -113,6 +143,8 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}
+        {status === "submitted" && lastMessageIsUser && <Loader />}
+        {status === "error" && <ErrorMessage />}
         <div ref={messageEndRef} />
       </div>
 
@@ -122,10 +154,16 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
           onChange={(e) => setInput(e.target.value)}
           placeholder="..."
           className="max-h-[120px] min-h-[40px] resize-none overflow-y-auto"
+          onKeyDown={handleKeyDown}
           maxLength={1000}
           autoFocus
         />
-        <Button type="submit" size="icon" className="cursor-pointer">
+        <Button
+          type="submit"
+          size="icon"
+          className="cursor-pointer items"
+          disabled={!input.trim() || isProcessing}
+        >
           <Send className="size-4" />
         </Button>
       </form>
@@ -143,7 +181,7 @@ function ChatMessage({ message }: ChatMessageProps) {
   return (
     <div
       className={cn(
-        "mb-2 flex max-w-[80%] flex-col prose dark:prose-invert",
+        "mb-2 flex max-w-[80%] flex-col prose dark:prose-invert text-pretty",
         message.role === "user" ? "ml-auto items-end" : "mr-auto items-start"
       )}
     >
@@ -171,10 +209,18 @@ function ChatMessage({ message }: ChatMessageProps) {
 
 function Loader() {
   return (
-    <div className="ml-2 items-center gap-1 py-2">
+    <div className="ml-2 flex items-center gap-1 py-2">
       <div className="bg-primary size-1.5 animate-pulse rounded-full" />
       <div className="bg-primary size-1.5 animate-pulse rounded-full delay-150" />
       <div className="bg-primary size-1.5 animate-pulse rounded-full delay-300" />
     </div>
-  )
+  );
+}
+
+function ErrorMessage() {
+  return (
+    <div className="text-sm text-red-500">
+      Something went wrong. Please try again later.
+    </div>
+  );
 }
