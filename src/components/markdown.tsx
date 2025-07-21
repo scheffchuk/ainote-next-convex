@@ -15,13 +15,21 @@ export default function Markdown({ children }: MarkdownProps) {
             href?.startsWith("/");
           if (isInternalLink) {
             return (
-              <Link href={href || "#"} className="text-primary hover:underline" target="_blank">
+              <Link
+                href={href || "#"}
+                className="text-primary hover:underline"
+                target="_blank"
+              >
                 {children}
               </Link>
             );
           }
           return (
-            <a href={href || "#"} className="text-primary hover:underline" target="_blank">
+            <a
+              href={href || "#"}
+              className="text-primary hover:underline"
+              target="_blank"
+            >
               {children}
             </a>
           );

@@ -16,6 +16,7 @@ import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useState } from "react";
 import { toast } from "sonner";
+import Markdown from "@/components/markdown";
 
 type NotePreviewDialogProps = {
   note: Doc<"notes">;
@@ -55,8 +56,8 @@ export const NotePreviewDialog = ({ note }: NotePreviewDialogProps) => {
         <DialogHeader>
           <DialogTitle className="mt-3">{note.title}</DialogTitle>
         </DialogHeader>
-        <div className="mt-3 whitespace-pre-wrap overflow-y-auto">
-          {note.body}
+        <div className="mt-3 whitespace-pre-line overflow-y-auto">
+          <Markdown>{note.body}</Markdown>
         </div>
         <DialogFooter className="mt-6">
           <Button
